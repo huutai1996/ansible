@@ -1,0 +1,5 @@
+---
+# Root directory server
+drupal_core_path: "/var/ww/drupal"
+domain: drupaltest
+password_mysql: "1234"

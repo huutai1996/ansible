@@ -1,0 +1,14 @@
+server {
+    listen 80;
+    listen 443 ssl;
+    ssl_certificate {{ cert_file }};
+    ssl_certificate_key {{ key_file }};
+    server_name localhost;
+    access_log logs/access_default.log timed_combined;
+    error_log logs/error_default.log error;
+    location /{
+        root /usr/share/nginx/html;
+        index index.html;
+        try $uri $uri/ =404;
+    }
+}

@@ -1,0 +1,21 @@
+---
+- hosts: tomcat1
+  become: yes
+  tasks:
+    - name: add repository
+      shell: 'curl -sL https://rpm.nodesource.com/setup_16.x | sudo bash -'
+    - name: install nodejs and npm
+      yum: name=nodejs state=present
+    - name: Ensure Node.js app folder exist
+      file: path={{ node_app_location }} state=directory
+    - name: copy app.js to server
+      copy: src=app dest={{ node_app_location }}
+    - name: install app dependencies defined in package.json
+      npm: path={{ node_app_location }}/app
+    - name: check list of running Node.js apps
+      command: forever list
+      register: forever_list
+      changed_when: false
+    - name: start example node.js apps
+      command: "forever start {{ node_app_location }}/app/app.js"
+      when: "forever_list.stdout.find(node_app_location + '/app/app.js') == -1"

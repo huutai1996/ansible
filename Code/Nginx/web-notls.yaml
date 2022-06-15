@@ -1,0 +1,36 @@
+- name: Configure webserver with nginx
+  hosts: ansibletest
+  become: true
+  vars:
+    key_file: /etc/nginx/ssl/nginx.key
+    cert_file: /etc/nginx/ssl/nginx.crt
+  tasks:
+    - name: install nginx
+      apt: name=nginx update_cache=yes
+    - name: copy nginx config file
+      copy: src=file/nginx.conf dest=/etc/nginx/nginx.conf
+    - name: create folder log and ssl
+      file:
+        path: "{{ item }}"
+        state: directory
+      loop:
+        - /usr/share/nginx/logs
+        - /etc/nginx/ssl 
+    - name: copy default webserver
+      template: src=file/default.conf.j2 dest=/etc/nginx/conf.d/default.conf
+    - name: copy index.html
+      copy: src=template/index.html.j2 dest=/usr/share/nginx/html/
+    - name: copy mime.types
+      copy: src=file/mime.types dest=/etc/nginx/
+    - name: copy TLS key
+      copy: src=file/nginx.key dest={{ key_file }}
+            owner=root
+            mode=0600
+    - name: copy TLS certificate
+      copy: src=file/nginx.crt dest={{ cert_file }}
+    - name: open port
+      shell:
+        cmd: "ufw allow 80; ufw allow 443"
+    - name: restart nginx
+      service: name=nginx state=restarted
+    
