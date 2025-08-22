@@ -1,2 +1,0 @@
-kube02 ansible_host=192.168.28.139 ansible_ssh_pass=nguyenhuutai ansible_ssh_user=nguyenhuutai host_key_checking=false
-kube03 ansible_host=192.168.28.140 ansible_ssh_pass=nguyenhuutai ansible_ssh_user=nguyenhuutai host_key_checking=false

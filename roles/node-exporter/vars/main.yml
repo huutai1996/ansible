@@ -1,0 +1,2 @@
+NODE_EXPORTER_IMAGE_TAG: "latest"
+NODE_EXPORTER_INSTALL_DIR: "/opt/node-exporter"
