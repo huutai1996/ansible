@@ -9,16 +9,16 @@
   file:
     path: /opt/node-exporter
     state: directory
-    owner: {{ NODE_EXPORTER_USER | default('node-exporter') }}
-    group: {{ NODE_EXPORTER_USER | default('node-exporter') }}
+    owner: "{{ NODE_EXPORTER_USER | default('node-exporter') }}"
+    group: "{{ NODE_EXPORTER_USER | default('node-exporter') }}"
     mode: '0755'
 
 - name: Copy node-exporter binary
   copy:
     src: files/node_exporter
     dest: /opt/node-exporter/node_exporter
-    owner: {{ NODE_EXPORTER_USER | default('node-exporter') }}
-    group: {{ NODE_EXPORTER_USER | default('node-exporter') }}
+    owner: "{{ NODE_EXPORTER_USER | default('node-exporter') }}"
+    group: "{{ NODE_EXPORTER_USER | default('node-exporter') }}"
     mode: '0755'
 
 - name: Create systemd service file for node-exporter
