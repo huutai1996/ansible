@@ -1,0 +1,23 @@
+- name: Create folder for node exporter
+  file:
+    path: "{{ NODE_EXPORTER_INSTALL_DIR }}"
+    state: directory
+    mode: '0755'
+
+- name: Copy Docker-compose file for node exporter
+  template:
+    src: "docker-compose-node-exporter.yml"
+    dest: "{{ NODE_EXPORTER_INSTALL_DIR }}/docker-compose.yml"
+    mode: '0644'
+
+- name: Pull node exporter Docker image
+  docker_image:
+    name: quay.io/prometheus/node-exporter
+    tag: "{{ NODE_EXPORTER_IMAGE_TAG }}"
+    source: pull
+
+- name: Start node exporter container
+  docker_compose_v2:
+    project_src: "{{ NODE_EXPORTER_INSTALL_DIR }}"
+    state: present
+    pull: missing

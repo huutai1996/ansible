@@ -1,0 +1,16 @@
+[Unit]
+Description=Node Exporter
+Documentation=https://github.com/prometheus/node_exporter
+After=network.target
+
+[Service]
+Type=simple
+User={{ NODE_EXPORTER_USER }}
+Group={{ NODE_EXPORTER_USER }}
+ExecStart=/opt/node-exporter/node_exporter --web.listen-address=:{{ NODE_EXPORTER_PORT | default('9100') }} --web.telemetry-path=/metrics
+Restart=on-failure
+RestartSec=5s
+ExecReload=/bin/kill -HUP 
+
+[Install]
+WantedBy=multi-user.target
