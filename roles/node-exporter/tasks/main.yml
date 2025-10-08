@@ -1,6 +1,6 @@
 - name: Create node-exporter user
   user:
-    name: {{ NODE_EXPORTER_USER | default('node-exporter') }}
+    name: "{{ NODE_EXPORTER_USER | default('node-exporter') }}"
     shell: /sbin/nologin
     system: yes
     create_home: no
@@ -32,7 +32,6 @@
 - name: Reload systemd to apply new service
   systemd:
     daemon_reload: yes
-    state: reloaded
 
 - name: Enable and start node-exporter service
   systemd:
